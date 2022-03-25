@@ -1,0 +1,31 @@
+Data aquitition,
+Data preprocessing,
+Data transformation,
+Data view,
+AI
+
+autodataDF = spark.read.option("header",True).option("inferSchema",True).option("delimiter",',').csv('/user/swathilakshmirtigeranalyt/wordcount/auto-data.csv')
+from Prashant Nair (Trainer) to All Participants:
+autodataDF.printSchema()
+from Prashant Nair (Trainer) to All Participants:
+autodataDF.show(5)
+
+
+autodataDF = spark.read.json('/user/swathilakshmirtigeranalyt/wordcount/customerData.json')
+from Prashant Nair (Trainer) to All Participants:
+autodataDF.printSchema()
+from Prashant Nair (Trainer) to All Participants:
+autodataDF.show(5)
+
+import findspark
+findspark.init()
+
+urlToMySQL = "jdbc:mysql://localhost:3306/mavenmovies"
+
+properties = {
+    "driver":"com.mysql.jbdc.Driver",
+    "user":"root",
+    "password":"123456"
+}
+
+cust = spark.read.jdbc(url=urlToMySQL, table='customer', properties=properties)

@@ -1,0 +1,30 @@
+hbase shell
+create 'hr','employee'
+create 'swathidemo','swatemp'
+
+put 'hr',1,'employee:ename','Prashant'
+put 'swathidemo',1,'swatemp:ename','Swathi'
+
+put 'hr',1,'employee:esal','4000'
+put 'swathidemo',1,'swatemp:esal','10000'
+
+put 'hr',2,'employee:ename','Arun'
+put 'hr',2,'employee:esal','5000'
+
+scan 'hr'
+scan 'swathidemo'
+
+get 'hr',1
+get 'swathidemo',1
+
+Update:
+put 'hr',1,'employee:esal','5000'
+put 'swathidemo',1,'swatemp:esal','50000'
+
+scan 'hr'
+scan 'swathidemo'
+
+get 'hr',1
+get 'swathidemo',1
+
+

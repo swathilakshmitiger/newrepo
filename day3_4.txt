@@ -1,0 +1,131 @@
+username : swathilakshmirtigeranalyt
+Database : swathilakshmirtigeranalyt
+Host : sqoopdb.slbdh.cloudlabs.com
+Password : swathilakshmirtigeranalytxa4gf
+
+mysql -u swathilakshmirtigeranalyt -pswathilakshmirtigeranalytxa4gf -h sqoopdb.slbdh.cloudlabs.com
+
+
+use swathilakshmirtigeranalyt;
+create table tigeremp(eid int, ename text, esal int, ecity text);
+insert into tigeremp values(1,'Prashant',234567,'Mumbai');
+insert into tigeremp values(2,'Yuvraj',56567,'Mumbai');
+insert into tigeremp values(3,'Mayuri',156567,'Bangalore');
+insert into tigeremp values(4,'Dinesh',456567,'Bangalore');
+select * from tigeremp;
+
+
+
+1. List Databases available in the MySQL DB
+sqoop list-databases --connect jdbc:mysql://sqoopdb.slbdh.cloudlabs.com --username swathilakshmirtigeranalyt --password swathilakshmirtigeranalytxa4gf
+
+2. List all Tables in the given database prashantnair2050gmail
+sqoop list-tables --connect jdbc:mysql://sqoopdb.slbdh.cloudlabs.com/
+swathilakshmirtigeranalyt --username swathilakshmirtigeranalyt --password swathilakshmirtigeranalytxa4gf
+
+sqoop import --connect jdbc:mysql://sqoopdb.slbdh.cloudlabs.com/swathilakshmirtigeranalyt  --username swathilakshmirtigeranalyt --password swathilakshmirtigeranalytxa4gf --table tigeremp --target-dir tigeremp/download1 -m 1
+
+sqoop import --connect jdbc:mysql://sqoopdb.slbdh.cloudlabs.com/swathilakshmirtigeranalyt --username swathilakshmirtigeranalyt --password swathilakshmirtigeranalytxa4gf --table tigerimp --target-dir tigerempMumbai --where "ecity='Mumbai" -m1
+
+
+sqoop import --connect jdbc:mysql://sqoopdb.slbdh.cloudlabs.com/swathilakshmirtigeranalyt 
+--username swathilakshmirtigeranalyt --password swathilakshmirtigeranalytxa4gf 
+--target-dir tigeremp/empNamesFromMumbai --query "select eid,ename from tigeremp where ecity = 'Mumbai' 
+and \$CONDITIONS" -m 1 
+
+
+sqoop import --connect jdbc:mysql://sqoopdb.slbdh.cloudlabs.com/swathilakshmirtigeranalyt --username swathilakshmirtigeranalyt --password swathilakshmirtigeranalytxa4gf --table tigeremp --target-dir tigeremp/empDatainTabSep -m 1 --fields-terminated-by '\t'
+
+incremental append operations
+
+sqoop import --connect jdbc:mysql://sqoopdb.slbdh.cloudlabs.com/swathilakshmirtigeranalyt  --username swathilakshmirtigeranalyt --password swathilakshmirtigeranalytxa4gf --table tigeremp --target-dir tigeremp/download1 -m 1 --incremental append --check-column eid --last-value 4
+
+create table empFromHDFS(eid int, ename text);
+2. Perform Sqoop Export Command
+sqoop export --connect jdbc:mysql://sqoopdb.slbdh.cloudlabs.com/swathilakshmirtigeranalyt  --username swathilakshmirtigeranalyt --password swathilakshmirtigeranalytxa4gf --table empFromHDFS --export-dir /user/swathilakshmirtigeranalyt/tigeremp/empNamesFromMumbai --input-fields-terminated-by ','
+
+
+
+
+
+
+fday4
+
+Demo 1: Creating a database and a table
+create database prashanttrainerdemo;
+use prashanttrainerdemo;
+create table employee1
+(eid int,
+ ename string,
+ esal int,
+ ecity string)
+ ROW FORMAT DELIMITED
+ FIELDS TERMINATED BY ','
+ LINES TERMINATED BY '\n';
+show tables;
+select * from employee;
+Demo 2: Loading data 
+From Local File System
+LOAD DATA LOCAL INPATH 'empForTiger' INTO TABLE employee;
+select * from employee;
+
+
+LOAD DATA INPATH '/user/swathilakshmirtigeranalyt/empFromTiger' INTO TABLE employee1;
+
+
+
+
+ Create empFromTiger in HDFS home folder and upload the data
+2. Create external table
+create external table employeeExternal
+(eid int,
+ ename string,
+ esal int,
+ ecity string)
+ ROW FORMAT DELIMITED
+ FIELDS TERMINATED BY ','
+ LINES TERMINATED BY '\n'
+ LOCATION '/user/swathilakshmirtigeranalyt/empFromTiger';
+3. Select 
+select * from employeeExternal where ecity ="Mumbai";
+
+
+
+Assignment:
+
+create table walmarttransaction(txnid int,txndate text,custid int,amount double,category text,subcategory text,state text,city text,txntype text)
+ 
+
+3. select * from walmarttransactions where category ="Exercise & Fitness";
+
+4. select count(*),txntype from walmarttransactions group by txntype;
+
+64      cash
+336     credit
+
+
+5. select sum(amount), category from walmarttransactions group by category;
+1082    Air Sports
+1648    Combat Sports
+701     Dancing
+4993    Exercise & Fitness
+2884    Games
+3356    Gymnastics
+2486    Indoor Games
+2070    Jumping
+2406    Outdoor Play Equipment
+6162    Outdoor Recreation
+505     Puzzles
+1217    Racquet Sports
+5155    Team Sports
+4358    Water Sports
+1307    Winter Sports
+
+
+sqoop export --connect jdbc:mysql://sqoopdb.slbdh.cloudlabs.com/swathilakshmirtigeranalyt --username swathilakshmirtigeranalyt --password swathilakshmirtigeranalytxa4gf --table walmarttransaction --export-dir /user/swathilakshmirtigeranalyt/smallDataset/txnsSmall --input-fields-terminated-by ','
+
+
+sqoop import --connect jdbc:mysql://sqoopdb.slbdh.cloudlabs.com/swathilakshmirtigeranalyt --username swathilakshmirtigeranalyt --password swathilakshmirtigeranalytxa4gf --target-dir smallDataset/revenue --query "select sum(amount), category from walmarttransactions where \$CONDITIONS group by category" -m 1 
+
+prashant.nair2050@gmail.com
+
